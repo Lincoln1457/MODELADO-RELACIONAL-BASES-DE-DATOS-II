@@ -86,12 +86,61 @@ SELECT *
 FROM entrenadores
 WHERE experiencia_anios > 5;
 
--- 
+-- Cuenta a los clientes según su género
 SELECT genero, COUNT(*) AS total
 FROM clientes
 GROUP BY genro;
 
---
+-- Calcula el promerdio de edad
 SELECT AVG(edad) AS promedio_edad
+FROM clientes;
 
+-- Cuenta reservas por estado
+SELECT estado, COUNT(*) AS total
+FROM reservas
+GROUP BY estado;
 
+-- Entrenadores ordenados por el que más tiene clases al que menos
+SELECT e.nombre, COUNT(*) AS total_clases
+FROM entrenadores e
+JOIN clases c ON e.id_entrenador = c.id_entrenador
+GROUP BY e.id_entrenador
+ORDER BY total_clases DESC
+LIMIT 1;
+
+-- Muestra las clases y su respectivo entrenador
+SELECT c.nombre_clase, e.nombre AS entrenador
+FROM clases c
+JOIN entrenadores e ON c.id_entrenador = e.id_entrenador;
+
+-- Filtra a los clientes con reservas activas
+SELECT DISTINCT c.nombre
+FROM clientes c
+JOIN reservas r ON c.id_cliente = r.id_cliente
+WHERE r.estado = 'ACTIVA';
+
+-- Muestra cliente y clase para reservas pactadas
+SELECT cl.nombre AS cliente, cs.nombre_clase AS clase
+FROM reservas r
+JOIN clientes cl ON r.id_cliente = cl.id_cliente
+JOIN clases cs ON r.id_clase = cs.id_clase
+WHERE r.estado = 'FINALIZADA';
+
+-- Cliente de menor edad de la lista con reserva
+SELECT c.*
+FROM clientes c
+JOIN reservas r ON c.id_cliente = r.id_cliente
+ORDER BY c.edad ASC
+LIMIT 1;
+
+-- Filtra a los entrenadores con más de 10 clases disponibles para reserba
+SELECT DISTINCT e.nombre
+FROM entrenadores e
+JOIN clases c ON e.id_entrenador = c.id_entrenador
+WHERE c.cupos > 10;
+
+-- Persona sin reserva
+SELECT c.*
+FROM clientes c
+LEFT JOIN reservas r ON c.id_cliente = r.id_cliente
+WHERE r.id_reserva IS NULL;
