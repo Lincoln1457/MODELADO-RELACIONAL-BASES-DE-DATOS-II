@@ -1,0 +1,27 @@
+CREATE TABLE usuarui (
+    id_usuario INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    nombre varchar(300) NOT NULL,
+    edad INT NOT NULL,
+    email varchar(500)
+);
+
+
+INSERT INTO usuarui value(
+    null,
+    "Anderson",
+    25,
+    "andy@guapo.com"
+);
+
+INSERT INTO usuarui value(
+    null,
+    'Dayana',
+    15,
+    'dayis@bella.com'
+);
+
+SELECT * FROM usuarui;
+
+
+SHOW TABLES;
+
